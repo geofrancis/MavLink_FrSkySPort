@@ -61,6 +61,7 @@
 	local apm_status_message = {severity=0, textnr=0, timestamp=0}  --Init status message table
   local req_mainscr = true
   local scr_loaded = ""
+  local battReset = true
 
 --Empty run_func will be populated later in run() function
   local run_func = function() end
@@ -88,7 +89,6 @@
 		oldlocaltime = getTime()
 	end
 
-
 --APM Armed and errors
 	local function armed_status()
 		t2 = getValue("Tmp2")
@@ -106,12 +106,18 @@
 			shvars.prearmheading=getValue("Hdg")
 			shvars.pilotlat = math.rad(shvars.LocationLat)
 			shvars.pilotlon = math.rad(shvars.LocationLon)
+      if model.getTimer(0).value == 0 and not battReset then --reset consumption counters if user has reset timer to zero
+        battReset = true
+        shvars.watthours = 0
+        -- reset Calculated sensor
+      end
 		end
     if lastArmed~=apmArmed then
 			lastArmed=apmArmed
 			if apmArmed==1 then
 				model.setTimer(0,{mode=1})
 				model.setTimer(1,{mode=1})
+        battReset = false --now armed battReset flag undone, this will allow for battReset on next disarm
 				playFile("/SOUNDS/en/TELEM/SARM.wav")
 				playFile("/SOUNDS/en/TELEM/AVFM"..(FmodeNr-1)..WavSfx..".wav")
 			else
@@ -120,6 +126,7 @@
 				playFile("/SOUNDS/en/TELEM/SDISAR.wav")
 			end
 		end
+
 		t2 = (t2-apmArmed)/0x02
 		status_severity = t2%0x10
 		t2 = (t2-status_severity)/0x10

@@ -37,6 +37,7 @@
     shvars.offsetmah = 0
     shvars.offsetwh = 0
     shvars.whCap = 0
+    shvars.armGvar = 0
   end
 
   -- Local OpenTx 2.2 checker function

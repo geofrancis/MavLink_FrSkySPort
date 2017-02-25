@@ -118,15 +118,15 @@
 				model.setTimer(0,{mode=1})
 				model.setTimer(1,{mode=1})
         battReset = false --now armed battReset flag undone, this will allow for battReset on next disarm
-        if shvars.armGvar > 0 then
-          model.setGlobalVariable(shvars.armGvar-1, 0, 1024)
+        if shvars.armGvar > 0 then --output value on the selected GVar which will exist whilst armed
+          model.setGlobalVariable(shvars.armGvar-1, 0, 100)
         end
 				playFile("/SOUNDS/en/TELEM/SARM.wav")
 				playFile("/SOUNDS/en/TELEM/AVFM"..(FmodeNr-1)..WavSfx..".wav")
 			else
 				model.setTimer(0,{mode=0})
 				model.setTimer(1,{mode=0})
-        if shvars.armGvar > 0 then
+        if shvars.armGvar > 0 then --once disarmed switch the GVar back to zero
           model.setGlobalVariable(shvars.armGvar-1, 0, 0)
         end
 				playFile("/SOUNDS/en/TELEM/SDISAR.wav")

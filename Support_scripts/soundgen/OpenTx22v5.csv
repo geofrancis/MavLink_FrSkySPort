@@ -234,7 +234,7 @@ Path;FileName;EN;DE
 /SYSTEM;0176;point nine;NOT_AVAILABLE
 /SYSTEM;midtrim;trim center;Trimmzentrum
 /SYSTEM;maxtrim;maximum trim reached;Erreichte das Maximum Trim
-/SYSTEM;mintrim;minium trim reached;Erreicht das Minimum Trim
+/SYSTEM;mintrim;minimum trim reached;Erreicht das Minimum Trim
 /SYSTEM;timovr1;timer 1 elapsed;NOT_AVAILABLE
 /SYSTEM;timovr2;timer 2 elapsed;NOT_AVAILABLE
 /SYSTEM;timovr3;timer 3 elapsed;NOT_AVAILABLE
@@ -355,6 +355,7 @@ Path;FileName;EN;DE
 ;poshld;position hold;Stellung halten
 ;racemd;race mode;Modus Rennen
 ;rtl;return to launch;Zurück zum Start
+;slvlmd;self level mode;NOT_AVAILABLE
 ;smokeoff;smoke off;Rauch aus
 ;smokeon;smoke on;Rauchen auf
 ;speedmd;speed mode;Modus Geschwindigkeit

@@ -100,7 +100,7 @@ void storeVoltageReading(uint16_t value)
     debugSerial.println();
 
   #endif
-  // Update the minimu voltage if this is lover
+  // Update the minimum voltage if this is lower
   if(voltageMinimum < 1 || value < voltageMinimum)
     voltageMinimum = value;
 }

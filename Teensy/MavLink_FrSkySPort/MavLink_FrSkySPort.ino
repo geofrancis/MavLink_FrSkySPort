@@ -124,7 +124,7 @@
 #define MY_CMPID            123     // teensy component id
 #define GB_SYSID            71      // gimbal system id
 #define GB_CMPID            67      // gimbal component id
-#define MAXCELLS            4       // configure number maximum connected analog inputs(cells). If you build an six cell network then MAXCELLS is 6
+#define MAXCELLS            6       // configure number maximum connected analog inputs(cells). If you have 6s or under then MAXCELLS is 6, increase if more
 //#define AC_VERSION          3.2
 #define AC_VERSION          3.3
 
@@ -137,6 +137,7 @@
 //#define USE_FLVSS_FAKE_SENSOR_DATA                      // Enable if you want send fake cell info calculated from VFCS, please set MAXCELLs (above) according your Number of LiPo Cells
 //#define USE_SINGLE_CELL_MONITOR                         // Disable if you use a FrSky FLVSS Sensor. - Setup in LSCM Tab
 //#define USE_AP_VOLTAGE_BATTERY_FROM_SINGLE_CELL_MONITOR // Use this only with enabled USE_SINGLE_CELL_MONITOR
+//#define USE_BATT2                                       // Enable reporting for 2nd APM battery brick (Pixhawk 2.1) - Do NOT enable if USE_SINGLE_CELL_MONITOR is enabled or if USE_FLVSS_FAKE_SENSOR_DATA is enabled with MAXCELLS >6
 //#define USE_RC_CHANNELS                                 // Use of RC_CHANNELS Informations ( RAW Input Valus of FC ) - enable if you use TEENSY_LED_SUPPORT.
 //#define USE_TEENSY_LED_SUPPORT                          // Enable LED-Controller functionality
 //#define POLLING_ENABLED                                 // Enable Sensor Polling - for use with Ultimate LRS (where Teensy connected to Taranis S.Port input directly).
@@ -152,7 +153,8 @@
 //#define DEBUG_APM_MAVLINK_MSGS              // Show all messages received from APM
 //#define DEBUG_APM_CONNECTION
 //#define DEBUG_APM_HEARTBEAT                 // MSG #0
-//#define DEBUG_APM_BAT                       // Debug Voltage and Current received from APM
+//#define DEBUG_APM_BAT                       // Debug Voltage and Current received from APM for BAT1
+//#define DEBUG_APM_BAT2                      // Debug Voltage and Current received from APM for BAT2
 //#define DEBUG_APM_GPS_RAW                   // MSG #24
 //#define DEBUG_APM_ACC                       // Debug Accelerometer
 //#define DEBUG_APM_ATTITUDE                  // MSG #30
@@ -276,6 +278,16 @@ uint16_t    ap_throttle           = 0;    // Current throttle setting in integer
 // FrSky Taranis uses the first recieved value after 'PowerOn' or  'Telemetry Reset'  as zero altitude
 float     ap_bar_altitude       = 0;    // 100 = 1m
 float     ap_climb_rate         = 0;    // 100 = 1m/s
+
+/*
+ * *******************************************************
+ * *** Message #181  BATTERY2                          ***
+ * *******************************************************
+ */
+#ifdef USE_BATT2  
+  uint16_t    ap_voltage_battery2   = 0;    // 1000 = 1V | Battery voltage, in millivolts (1 = 1 millivolt)
+  int16_t     ap_current_battery2   = 0;    //   10 = 1A | Battery current, in 10*milliamperes (1 = 10 milliampere),
+#endif                                          //              -1: autopilot does not measure the current.
 
 /*
  * *******************************************************

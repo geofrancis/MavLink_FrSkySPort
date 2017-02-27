@@ -68,6 +68,10 @@
 #ifndef USE_FCS_SENSOR_INSTEAD_OF_APM_DATA
   FrSkySportSensorFcs fcs;                               // Create FCS sensor with default ID
 #endif
+#ifdef USE_BATT2
+  FrSkySportSensorFcs fcs2(FrSkySportSensor::ID15);                               // Create FCS2 sensor with given ID
+#endif
+
 FrSkySportSensorFuel fuel;                             // Create FUEL sensor with default ID
 #ifdef SEND_STATUS_TEXT_MESSAGE
   FrSkySportSensorStatus txtmsg(FrSkySportSensor::ID9);                             // Create FUEL sensor with given ID
@@ -146,6 +150,10 @@ void FrSkySPort_Init()
       telemetry.addSensor( &flvss1 );
       telemetry.addSensor( &flvss2 );
     #endif
+  #endif
+
+  #ifdef USE_BATT2
+    telemetry.addSensor( &fcs2 );
   #endif
 
   #ifdef SEND_STATUS_TEXT_MESSAGE
@@ -270,8 +278,12 @@ void FrSkySportTelemetry_FCS() {
         debugSerial.print(ap_current_battery / 100.0);
         debugSerial.println();
       #endif
-      fcs.setData(ap_current_battery / 100.0,    // Current consumption in amps
-                  FCSVoltage / 1000.0);           // Battery voltage in volts
+      fcs.setData(ap_current_battery / 100.0,     // Current in Amps
+                  FCSVoltage / 1000.0);           // Battery voltage in Volts
+      #ifdef USE_BATT2
+        fcs2.setData(ap_current_battery2 / 100.0,    // Battery2 Current in Amps
+                     ap_voltage_battery2 / 1000.0);  // Battery2 voltage in Volts
+      #endif
     }
   #endif
 }

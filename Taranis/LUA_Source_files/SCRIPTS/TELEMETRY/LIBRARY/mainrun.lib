@@ -12,7 +12,7 @@
 --    https://github.com/Clooney82/MavLink_FrSkySPort
 --
 --    (2016) Paul Atherton
---    https://github.com/Clooney82/MavLink_FrSkySPort
+--    https://github.com/athertop/MavLink_FrSkySPort
 --
 --   Recent changes include:
 --   relocation of this code to mainrun.lua - allowing for unloading of
@@ -157,7 +157,7 @@ end
 			lcd.drawNumber(4,10,getValue("VFAS")*10,MIDSIZE+PREC1+LEFT)
 		end
 		lcd.drawText(lcd.getLastPos(),14,"V",0)
-    
+
     if shvars.is22 then
       lcd.drawNumber(60,10,getValue("Cmin")*100,MIDSIZE+PREC2+RIGHT)
       xposCons=61
@@ -167,7 +167,7 @@ end
     end
 		lcd.drawText(xposCons,9,"c-",SMLSIZE)
 		lcd.drawText(xposCons,15,"min",SMLSIZE)
-		
+
 		if shvars.is22 then
 			lcd.drawNumber(1,24,getValue("Curr")*10,MIDSIZE+PREC1+LEFT)
 		else
@@ -196,7 +196,7 @@ end
     end
 		lcd.drawText(xposCons,43,"Wh",SMLSIZE)
 		lcd.drawLine(0,53,75,53,SOLID,0)
-		
+
 		lcd.drawText(1,56,"ArmT",SMLSIZE)
 		lcd.drawTimer(lcd.getLastPos()+2,56,model.getTimer(0).value,SMLSIZE)
 

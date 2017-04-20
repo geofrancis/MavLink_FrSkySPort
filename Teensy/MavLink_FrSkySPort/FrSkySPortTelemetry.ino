@@ -501,7 +501,7 @@ void FrSkySportTelemetry_RPM() {
     debugSerial.print(ap_throttle * 200+ap_battery_remaining*2);
     debugSerial.print("\tT1 ((ap_sat_visible * 10) + ap_fixtype): ");
     debugSerial.print(gps_status);
-    debugSerial.print("\tT2 (Armed Status + Severity + Statustext): ");
+    debugSerial.print("\tT2 (Armed Status + Severity+1 +  Statustext): ");
     debugSerial.print(ap_status_value);
     debugSerial.println();
   }

@@ -12,7 +12,7 @@
 --    https://github.com/Clooney82/MavLink_FrSkySPort
 --
 --    (2016) Paul Atherton
---    https://github.com/Clooney82/MavLink_FrSkySPort
+--    https://github.com/athertop/MavLink_FrSkySPort
 --
 --   Recent changes include:
 --   OpenTx 2.1.7 (and newer) compatibility (will not work with older 2.1 revisions). Separate repo for OpenTx 2.0.

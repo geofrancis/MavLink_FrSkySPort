@@ -514,19 +514,21 @@ void _MavLink_receive() {
          * *** MAVLINK Message #181 - BATTERY2               ***
          * *****************************************************
          */
-        case MAVLINK_MSG_ID_BATTERY2:
-          ap_voltage_battery2 = mavlink_msg_battery2_get_voltage(&msg);  // 1 = 1mV
-          ap_current_battery2 = mavlink_msg_battery2_get_current_battery(&msg);     // 1=10mA
+        #ifdef USE_BATT2
+          case MAVLINK_MSG_ID_BATTERY2:
+            ap_voltage_battery2 = mavlink_msg_battery2_get_voltage(&msg);  // 1 = 1mV
+            ap_current_battery2 = mavlink_msg_battery2_get_current_battery(&msg);     // 1=10mA
 
-          #ifdef DEBUG_APM_BAT2
-            debugSerial.print(millis());
-            debugSerial.print("\tMAVLINK_MSG_ID_BATTERY2: voltage_battery2: ");
-            debugSerial.print(ap_voltage_battery2);
-            debugSerial.print(", current_battery2: ");
-            debugSerial.print(ap_current_battery2);
-            debugSerial.println();
-          #endif
-        break;
+            #ifdef DEBUG_APM_BAT2
+              debugSerial.print(millis());
+              debugSerial.print("\tMAVLINK_MSG_ID_BATTERY2: voltage_battery2: ");
+              debugSerial.print(ap_voltage_battery2);
+              debugSerial.print(", current_battery2: ");
+              debugSerial.print(ap_current_battery2);
+              debugSerial.println();
+            #endif
+          break;
+        #endif
         /*
          * *****************************************************
          * *** MAVLINK Message #253 - STATUSTEXT             ***

@@ -284,7 +284,7 @@ float     ap_climb_rate         = 0;    // 100 = 1m/s
  * *** Message #181  BATTERY2                          ***
  * *******************************************************
  */
-#ifdef USE_BATT2  
+#ifdef USE_BATT2
   uint16_t    ap_voltage_battery2   = 0;    // 1000 = 1V | Battery voltage, in millivolts (1 = 1 millivolt)
   int16_t     ap_current_battery2   = 0;    //   10 = 1A | Battery current, in 10*milliamperes (1 = 10 milliampere),
 #endif                                          //              -1: autopilot does not measure the current.

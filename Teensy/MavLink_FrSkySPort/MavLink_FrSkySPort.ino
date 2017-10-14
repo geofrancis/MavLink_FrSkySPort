@@ -78,18 +78,21 @@
  * Cell            ( Voltage of Cell=Cells/(Number of cells). [V])
  * Cells           ( Voltage from LiPo [V] )
  * A2              ( HDOP value * 25 - 8 bit resolution)
- * A3              ( Roll angle from -Pi to +Pi radians, converted to a value between 0 and 1024)
+ * A3(normal)      ( Roll angle from -Pi to +Pi radians, converted to a value between 0 and 1024)
+ * A3(USE_MAV_RSSI)( RSSI value)
  * A4              ( Pitch angle from -Pi/2 to +Pi/2 radians, converted to a value between 0 and 1024)
- * Alt             ( Altitude from baro  [m] )
- * GAlt            ( Altitude from GPS   [m] )
- * hdg             ( Compass heading  [deg] )
+ * A4(USE_MAV_RSSI)( Sends constant 0 value - tells LUA to use A3 for RSSI)
+ * Alt             ( Altitude from baro [m] )
+ * GAlt(normal)    ( Altitude from GPS [m] )
+ * GAlt(USE_RF_ALT)( Altitude from Range Finder [m] )
+ * hdg             ( Compass heading [deg] )
  * Rpm             ( Throttle when ARMED [%] *100 + % battery remaining as reported by Mavlink)
  * VSpd            ( Vertical speed [m/s] )
  * GSpd            ( Ground speed from GPS,  [km/h] )
  * ASpd            ( Air Speed from Airspeed Sensor [km/h])
  * T1              ( GPS status = ap_sat_visible*10) + ap_fixtype )
  * T2              ( Armed Status and Mavlink Messages :- 16 bit value: bit 1: armed - bit 2-5: severity +1 (0 means no message - bit 6-15: number representing a specific text)
- * Vfcs            ( same as Cells )
+ * VFAS            ( same as Cells )
  * Longitud        ( Longitud )
  * Latitud         ( Latitud )
  * Dist            ( Will be calculated by FrSky Taranis as the distance from first received lat/long = Home Position )
@@ -142,6 +145,7 @@
 //#define USE_TEENSY_LED_SUPPORT                          // Enable LED-Controller functionality
 //#define POLLING_ENABLED                                 // Enable Sensor Polling - for use with Ultimate LRS (where Teensy connected to Taranis S.Port input directly).
 //#define USE_MAV_RSSI                                    // Enable Mavlink RSSI on A3 (A4 will be 0)- in place of pitch/roll - required for Ultimate LRS
+//#define USE_RF_ALT                                      // Enable Range Finder Alt - sent on gAlt (in place of GPS altitude)
 #define SEND_STATUS_TEXT_MESSAGE                        // Enable sending Status Text Messages to RC - comment out if not required
 #define AUTO_MAV_STREAM_CFG                             // Enable auto Mavlink SRn_ configuration - comment out for manual stream rate configuration
 /*
@@ -155,6 +159,7 @@
 //#define DEBUG_APM_HEARTBEAT                 // MSG #0
 //#define DEBUG_APM_BAT                       // Debug Voltage and Current received from APM for BAT1
 //#define DEBUG_APM_BAT2                      // Debug Voltage and Current received from APM for BAT2
+//#define DEBUG_APM_RF                        // Debug Rangefinder distance
 //#define DEBUG_APM_GPS_RAW                   // MSG #24
 //#define DEBUG_APM_ACC                       // Debug Accelerometer
 //#define DEBUG_APM_ATTITUDE                  // MSG #30
@@ -278,6 +283,15 @@ uint16_t    ap_throttle           = 0;    // Current throttle setting in integer
 // FrSky Taranis uses the first recieved value after 'PowerOn' or  'Telemetry Reset'  as zero altitude
 float     ap_bar_altitude       = 0;    // 100 = 1m
 float     ap_climb_rate         = 0;    // 100 = 1m/s
+
+/*
+ * *******************************************************
+ * *** Message #173  RANGEFINDER                       ***
+ * *******************************************************
+ */
+#ifdef USE_RF_ALT
+  float       ap_distance   = 0;    // Rangefinder distance in m
+#endif
 
 /*
  * *******************************************************

@@ -120,17 +120,25 @@ void Mavlink_config_connection() {
   _MavLinkSerial.write(buf,len);
   delay(10);
 
+  #if defined(USE_RF_ALT)
+    mavlink_msg_request_data_stream_pack(mavlink_system.sysid,mavlink_system.compid,&msg,AP_SYSID,AP_CMPID,MAV_DATA_STREAM_EXTRA3, MSG_RATE, START);
+    len = mavlink_msg_to_send_buffer(buf, &msg);
+    _MavLinkSerial.write(buf,len);
+    delay(10);
+  #endif
+
   mavlink_msg_request_data_stream_pack(mavlink_system.sysid,mavlink_system.compid,&msg,AP_SYSID,AP_CMPID,MAV_DATA_STREAM_RAW_SENSORS, MSG_RATE, START);
   len = mavlink_msg_to_send_buffer(buf, &msg);
   _MavLinkSerial.write(buf,len);
   delay(10);
 
   #if defined(USE_RC_CHANNELS) || defined(USE_MAV_RSSI)
-    delay(10);
     mavlink_msg_request_data_stream_pack(mavlink_system.sysid,mavlink_system.compid,&msg,AP_SYSID,AP_CMPID,MAV_DATA_STREAM_RC_CHANNELS, MSG_RATE, START);
     len = mavlink_msg_to_send_buffer(buf, &msg);
     _MavLinkSerial.write(buf,len);
   #endif
+
+
 
   digitalWrite(led,LOW);
   send_mavlink_connection_config++;
@@ -510,6 +518,23 @@ void _MavLink_receive() {
             debugSerial.println();
           #endif
         break;
+        /*
+         * *****************************************************
+         * *** MAVLINK Message #173 - RANGEFINDER            ***
+         * *****************************************************
+         */
+        #ifdef USE_RF_ALT
+          case MAVLINK_MSG_ID_RANGEFINDER:
+            ap_distance = mavlink_msg_rangefinder_get_distance(&msg);  // 1 = 1m
+
+            #ifdef DEBUG_APM_RF
+              debugSerial.print(millis());
+              debugSerial.print("\tMAVLINK_MSG_ID_RANGEFINDER: distance: ");
+              debugSerial.print(ap_distance);
+              debugSerial.println();
+            #endif
+          break;
+        #endif
         /*
          * *****************************************************
          * *** MAVLINK Message #181 - BATTERY2               ***

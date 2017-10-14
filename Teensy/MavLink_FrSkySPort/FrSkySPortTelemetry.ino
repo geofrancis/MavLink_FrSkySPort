@@ -430,7 +430,11 @@ void FrSkySportTelemetry_FLVSS() {
  */
 void FrSkySportTelemetry_GPS() {
     gps.setData(ap_latitude / 1E7, ap_longitude / 1E7,    // Latitude and longitude in degrees decimal (positive for N/E, negative for S/W)
-        ap_gps_altitude / 10.0,                           // Altitude (AMSL, NOT WGS84), in meters * 1000 (positive for up). Note that virtually all GPS modules provide the AMSL altitude in addition to the WGS84 altitude.
+        #ifdef USE_RF_ALT
+          ap_distance,                                    // Rangefinder distance in meters
+        #else
+          ap_gps_altitude / 10.0,                         // Altitude (AMSL, NOT WGS84), in meters * 1000 (positive for up). Note that virtually all GPS modules provide the AMSL altitude in addition to the WGS84 altitude.
+        #endif
         ap_groundspeed / 1.944,                           // Counteract Sport library which converts to kts (allows us to use default GPS settings on Taranis)
         ap_heading,                                       // Heading, in degrees * 100, 0.0..359.99 degrees. If unknown, set to: UINT16_MAX
         ap_gps_hdop);                                     // GPS HDOP horizontal dilution of position in cm (m*100)
@@ -442,8 +446,13 @@ void FrSkySportTelemetry_GPS() {
         debugSerial.print(ap_latitude/1E7);
         debugSerial.print("\tFrSky Longitude: ");
         debugSerial.print(ap_longitude/1E7);
-        debugSerial.print("\tGPSAlt: ");
-        debugSerial.print(ap_gps_altitude / 10.0);
+        #ifdef USE_RF_ALT
+          debugSerial.print("\tRangefinderAlt: ");
+          debugSerial.print(ap_distance);
+        #else
+          debugSerial.print("\tGPSAlt: ");
+          debugSerial.print(ap_gps_altitude / 10.0);
+        #endif
         debugSerial.print("cm");
         debugSerial.print("\tGroundSpeed: ");
         debugSerial.print(ap_groundspeed);
